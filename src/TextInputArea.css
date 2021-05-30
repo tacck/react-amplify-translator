@@ -1,0 +1,7 @@
+.input-area {
+  width: 100%;
+}
+
+.input-area-readonly {
+  background-color: '#ddd';
+}
