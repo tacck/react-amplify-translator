@@ -9,12 +9,10 @@ export default function TexrtInputArea(props) {
   const [message, setMessage] = useState(props.message);
 
   const handleChange = (event) => {
-    console.log('handleChange', event.target.value);
     setMessage(event.target.value);
   };
 
   const handleBlur = (event) => {
-    console.log('handleBlur', event.target.value);
     props.onMessageChange(event.target.value);
   };
 

@@ -3,20 +3,32 @@ import React, { useState } from 'react';
 
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-
-import TextInputArea from './TextInputArea';
-import TexrtResultArea from './TextResultArea';
 import { indigo } from '@material-ui/core/colors';
 import { Typography } from '@material-ui/core';
 
+import TextInputArea from './TextInputArea';
+import TexrtResultArea from './TextResultArea';
+
+import Predictions from '@aws-amplify/predictions';
+
 function App() {
-  const translate = (message) => {
+  const translate = async (message) => {
     if (message === '' || fromLanguage === '' || toLanguage === '') {
       setMessage('');
       return;
     }
-    console.log('translate', message);
-    setMessage(message);
+
+    const result = await Predictions.convert({
+      translateText: {
+        source: {
+          text: message,
+          language: fromLanguage
+          // supported languages https://docs.aws.amazon.com/translate/latest/dg/how-it-works.html#how-it-works-language-codes
+        },
+        targetLanguage: toLanguage
+      }
+    });
+    setMessage(result.text);
   };
   const [message, setMessage] = useState('');
   const [fromLanguage, setFromLanguage] = useState('');
@@ -44,7 +56,7 @@ function App() {
             onLanguageChange={(l) => { setToLanguage(l); }} />
         </Grid>
       </Grid>
-    </Container >
+    </Container>
   );
 }
 
